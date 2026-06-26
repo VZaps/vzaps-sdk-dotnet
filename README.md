@@ -1,7 +1,7 @@
 # VZaps .NET SDK
 
-[![CI](https://github.com/VZaps/vzaps-sdk-dotnet/actions/workflows/ci.yml/badge.svg)](https://github.com/VZaps/vzaps-sdk-dotnet/actions/workflows/ci.yml)
-[![NuGet](https://img.shields.io/nuget/v/VZaps.SDK.svg)](https://www.nuget.org/packages/VZaps.SDK)
+[![CI](https://github.com/VZaps/vzaps-sdk-dotnet/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/VZaps/vzaps-sdk-dotnet/actions/workflows/ci.yml)
+[![NuGet](https://img.shields.io/nuget/v/VZaps.SDK.svg?logo=nuget&logoColor=white)](https://www.nuget.org/packages/VZaps.SDK/)
 
 Official .NET SDK for the VZaps public API.
 
