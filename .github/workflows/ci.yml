@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: .NET ${{ matrix.dotnet }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        dotnet: ['8.0.x', '10.0.x']
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ matrix.dotnet }}
+
+      - run: dotnet restore
+
+      - run: dotnet format --verify-no-changes
+
+      - run: dotnet build --configuration Release --no-restore
+        env:
+          CI: true
+
+      - run: dotnet test --configuration Release --no-build --collect:"XPlat Code Coverage"
+
+      - run: dotnet pack src/VZaps.SDK/VZaps.SDK.csproj --configuration Release --no-build -o artifacts
+
+      - name: Validate packages
+        shell: bash
+        run: |
+          test -f artifacts/VZaps.SDK.*.nupkg
+          test -f artifacts/VZaps.SDK.*.snupkg
+
+      - name: Test local package install
+        shell: bash
+        run: |
+          mkdir /tmp/vzaps-consumer
+          cd /tmp/vzaps-consumer
+          dotnet new console --framework net8.0
+          dotnet add package VZaps.SDK --source "$GITHUB_WORKSPACE/artifacts"
+          printf 'using VZaps;\nConsole.WriteLine(typeof(VZapsClient).FullName);\n' > Program.cs
+          dotnet run
