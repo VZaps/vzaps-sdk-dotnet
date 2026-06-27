@@ -47,6 +47,11 @@ public sealed class InstanceListRequest : VZapsModel
     public bool? SortDesc { get; set; }
 }
 
+public sealed class InstanceGetRequest : VZapsModel
+{
+    public string Id { get; set; } = string.Empty;
+}
+
 public sealed class ContactAddRequest : InstanceScopedRequest
 {
     public string Phone { get; set; } = string.Empty;

@@ -49,7 +49,11 @@ public sealed class InstancesResource : BaseResource
 
     public Task<TResponse?> GetAsync<TResponse>(string instanceId, CancellationToken cancellationToken = default)
     {
-        return SendAsync<TResponse>(HttpMethod.Post, "/instances/get", new { id = instanceId }, cancellationToken: cancellationToken);
+        return SendAsync<TResponse>(
+            HttpMethod.Post,
+            "/instances/get",
+            new InstanceGetRequest { Id = instanceId },
+            cancellationToken: cancellationToken);
     }
 
     public Task<TResponse?> UpdateAsync<TResponse>(string instanceId, object request, InstanceRequestOptions? options = null, CancellationToken cancellationToken = default)

@@ -51,6 +51,21 @@ public sealed class ClientTests
     }
 
     [Fact]
+    public async Task GetInstanceAsync_SendsExpectedPathAndBody()
+    {
+        using var fixture = new ClientFixture();
+
+        await fixture.Client.Instances.GetAsync<JsonElement>("VZKB8AU4S4CWY1SLXX4I5WJGRZQMDDFTV6");
+
+        var request = fixture.Handler.Requests.Last();
+        request.Method.Should().Be(HttpMethod.Post);
+        request.RequestUri!.AbsolutePath.Should().Be("/instances/get");
+
+        var body = JsonDocument.Parse(await fixture.Handler.Bodies.Last().ReadAsStringAsync()).RootElement;
+        body.GetProperty("id").GetString().Should().Be("VZKB8AU4S4CWY1SLXX4I5WJGRZQMDDFTV6");
+    }
+
+    [Fact]
     public async Task ListInstancesAsync_NormalizesSearchAndPageSize()
     {
         using var fixture = new ClientFixture();
