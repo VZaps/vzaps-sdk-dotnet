@@ -41,7 +41,17 @@ jobs:
           test -f artifacts/VZaps.SDK.*.nupkg
           test -f artifacts/VZaps.SDK.*.snupkg
 
-      - name: Test local package install
+      - name: Test local package install (net6.0)
+        shell: bash
+        run: |
+          mkdir /tmp/vzaps-consumer-net6
+          cd /tmp/vzaps-consumer-net6
+          dotnet new console --framework net6.0
+          dotnet add package VZaps.SDK --source "$GITHUB_WORKSPACE/artifacts"
+          printf 'using VZaps;\nConsole.WriteLine(typeof(VZapsClient).FullName);\n' > Program.cs
+          dotnet run
+
+      - name: Test local package install (net8.0)
         shell: bash
         run: |
           mkdir /tmp/vzaps-consumer

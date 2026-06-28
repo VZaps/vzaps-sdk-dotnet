@@ -1,25 +1,32 @@
 # VZaps .NET SDK Examples
 
-Runnable sample projects that consume the published NuGet package (`VZaps.SDK`).
-
-You do **not** need to clone the full SDK repository to run the console examples. Download only the project folder you need, restore packages, set environment variables, and run.
+Runnable sample projects that reference the SDK source from this repository.
 
 ## Prerequisites
 
-- .NET 8 SDK or later
+- [.NET SDK](https://dotnet.microsoft.com/download) 8.0 or later to build the repository
+- Console sample targets **.NET 6**; ASP.NET Core and Worker samples target **.NET 8**
 
-## Option A — console sample only (recommended)
+## Option A — console sample only
 
-Download only [`VZaps.Examples.Console`](https://github.com/VZaps/vzaps-sdk-dotnet/tree/main/examples/VZaps.Examples.Console):
-
-1. Open the folder on GitHub and choose **Download ZIP**, or run:
+Download the console project **and** the SDK source (project reference):
 
 ```bash
-npx --yes degit VZaps/vzaps-sdk-dotnet/examples/VZaps.Examples.Console vzaps-dotnet-console
-cd vzaps-dotnet-console
+git clone --depth 1 --filter=blob:none --sparse https://github.com/VZaps/vzaps-sdk-dotnet.git
+cd vzaps-sdk-dotnet
+git sparse-checkout set examples/VZaps.Examples.Console src/VZaps.SDK Directory.Build.props Directory.Packages.props
+cd examples/VZaps.Examples.Console
 ```
 
-2. Set credentials:
+Or create a standalone app from NuGet (no clone):
+
+```bash
+dotnet new console -f net6.0 -n vzaps-dotnet-console
+cd vzaps-dotnet-console
+dotnet add package VZaps.SDK
+```
+
+Set credentials and run (after copying example `Program.cs` flows from the repo if using NuGet):
 
 ```powershell
 $env:VZAPS_CLIENT_TOKEN="your-client-token"
@@ -28,7 +35,7 @@ $env:VZAPS_INSTANCE_ID="VZ..."
 $env:VZAPS_INSTANCE_TOKEN="your-instance-token"
 ```
 
-3. Run one numbered flow:
+Run one numbered flow:
 
 ```bash
 dotnet run -- 07
@@ -48,12 +55,12 @@ dotnet run -- 07
 | `10` | Queues |
 | `11` | TypeBot and Chatwoot |
 
-## Option B — sparse checkout
+## Option B — sparse checkout (console only)
 
 ```bash
 git clone --depth 1 --filter=blob:none --sparse https://github.com/VZaps/vzaps-sdk-dotnet.git
 cd vzaps-sdk-dotnet
-git sparse-checkout set examples/VZaps.Examples.Console
+git sparse-checkout set examples/VZaps.Examples.Console src/VZaps.SDK Directory.Build.props Directory.Packages.props
 cd examples/VZaps.Examples.Console
 dotnet run -- 07
 ```
@@ -66,7 +73,7 @@ cd vzaps-sdk-dotnet/examples/VZaps.Examples.Console
 dotnet run -- 07
 ```
 
-When developing the SDK locally, replace the NuGet reference with a project reference to `src/VZaps.SDK/VZaps.SDK.csproj`.
+Examples in this repository use a **project reference** to `src/VZaps.SDK`. Standalone apps can install **`VZaps.SDK`** from NuGet instead (works on .NET 6+ via `netstandard2.0`).
 
 ## Additional samples
 

@@ -12,6 +12,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="VZaps.SDK" Version="0.1.0" />
+    <ProjectReference Include="..\..\src\VZaps.SDK\VZaps.SDK.csproj" />
   </ItemGroup>
 </Project>
