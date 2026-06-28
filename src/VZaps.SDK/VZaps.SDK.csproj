@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFrameworks>netstandard2.0;net8.0</TargetFrameworks>
     <PackageId>VZaps.SDK</PackageId>
-    <Version>0.1.0</Version>
+    <Version>0.1.1</Version>
     <Authors>VZaps</Authors>
     <Company>VZaps</Company>
     <Description>Official .NET SDK for the VZaps public API.</Description>
