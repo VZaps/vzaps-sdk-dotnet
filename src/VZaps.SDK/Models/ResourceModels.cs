@@ -198,3 +198,59 @@ public sealed class ChatExpirationRequest : ChatRequest
 {
     public string Expiration { get; set; } = string.Empty;
 }
+
+public sealed class SessionBusinessCategory
+{
+    public string Id { get; set; } = string.Empty;
+
+    public string Name { get; set; } = string.Empty;
+}
+
+public sealed class SessionBusinessProfile
+{
+    public string? BusinessHoursTimezone { get; set; }
+
+    public List<SessionBusinessCategory>? Categories { get; set; }
+
+    public Dictionary<string, string>? ProfileOptions { get; set; }
+
+    public string? Address { get; set; }
+
+    public string? Email { get; set; }
+}
+
+public sealed class SessionStatusData
+{
+    public bool Connected { get; set; }
+
+    public string? Phone { get; set; }
+
+    public string? WhatsappJid { get; set; }
+
+    public string? PushName { get; set; }
+
+    public string? BusinessName { get; set; }
+
+    public SessionBusinessProfile? BusinessProfile { get; set; }
+
+    public string? ProfilePictureId { get; set; }
+
+    public string? ProfilePictureUrl { get; set; }
+
+    public string? ProfileUrl { get; set; }
+
+    public string? VerifiedName { get; set; }
+
+    public string? About { get; set; }
+
+    public string? Website { get; set; }
+}
+
+public sealed class SessionStatusResponse
+{
+    public int Code { get; set; }
+
+    public bool Success { get; set; }
+
+    public SessionStatusData Data { get; set; } = new();
+}

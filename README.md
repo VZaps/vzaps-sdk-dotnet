@@ -198,6 +198,14 @@ Available send helpers include `SendTextAsync`, `SendImageAsync`, `SendAudioAsyn
 | `ListAsync<TResponse>(request)` | `GET /instances/:id/group/list` | List groups (paginated). |
 | `GetAsync<TResponse>(request)` | `GET /instances/:id/group/info` | Get group metadata by `GroupId`. |
 
+### `client.Sessions`
+
+| Method | HTTP | Description |
+| --- | --- | --- |
+| `StatusAsync(instanceId, options?)` | `GET /instances/:id/session/status` | Check WhatsApp login state and, when connected, live profile fields. |
+
+`GET /instances/{id}/session/status` returns `SessionStatusResponse`. When `Data.Connected` is `true`, `Data` includes (in order) `Phone`, `WhatsappJid`, `PushName`, `BusinessName`, `BusinessProfile`, `ProfilePictureId`, `ProfilePictureUrl`, `ProfileUrl`, and optional `VerifiedName`, `About`, `Website`. When disconnected, `Data` only has `Connected = false`.
+
 Other public namespaces are available as first-class resources too: `Sessions`, `Users`, `Queues`, `TypeBots`, `Chatwoot`, and `Chats`.
 
 ### `client.RequestAsync<TResponse>(method, path, options?)`
