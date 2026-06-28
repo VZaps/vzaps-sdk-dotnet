@@ -1,11 +1,10 @@
 # VZaps .NET SDK
 
-[![CI](https://github.com/VZaps/vzaps-sdk-dotnet/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/VZaps/vzaps-sdk-dotnet/actions/workflows/ci.yml) [![SDK Documentation](https://img.shields.io/badge/SDK-Documentation-blue)](https://docs.vzaps.com/en/sdk/dotnet/installation) [![license](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
-[![NuGet](https://img.shields.io/nuget/v/VZaps.SDK.svg?logo=nuget&logoColor=white)](https://www.nuget.org/packages/VZaps.SDK/)
+[![CI](https://github.com/VZaps/vzaps-sdk-dotnet/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/VZaps/vzaps-sdk-dotnet/actions/workflows/ci.yml) [![NuGet](https://img.shields.io/nuget/v/VZaps.SDK.svg?logo=nuget&logoColor=white)](https://www.nuget.org/packages/VZaps.SDK/) [![SDK Documentation](https://img.shields.io/badge/SDK-Documentation-blue)](https://docs.vzaps.com/en/sdk/dotnet/installation) [![license](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 
 Official .NET client for the [VZaps public API](https://docs.vzaps.com). Send WhatsApp messages, manage instances, configure webhooks, and subscribe to realtime events with a resource-oriented, async-first interface.
 
-Targets **`netstandard2.0`** and **`net8.0`**. .NET 8 or newer is recommended for new applications.
+Targets **`netstandard2.0`** and **`net8.0`**. Use it from .NET Framework 4.6.1+, .NET Core 3.1, .NET 6, or any newer runtime; .NET 8+ is recommended for greenfield apps.
 
 ---
 
@@ -16,7 +15,7 @@ Targets **`netstandard2.0`** and **`net8.0`**. .NET 8 or newer is recommended fo
 - [Installation](#installation)
 - [Quick start](#quick-start)
 - [Authentication](#authentication)
-- [Configuration](#configuration)
+- [Client options](#client-options)
 - [Resources](#resources)
 - [Instance tokens](#instance-tokens)
 - [Webhooks](#webhooks)
@@ -43,7 +42,9 @@ Targets **`netstandard2.0`** and **`net8.0`**. .NET 8 or newer is recommended fo
 
 | Runtime | Minimum version |
 | --- | --- |
-| .NET | `netstandard2.0` (library) / .NET 8+ recommended |
+| .NET | **.NET Framework 4.6.1+**, **.NET Core 2.0+**, **.NET 5/6/7/8+** via `netstandard2.0`; also ships a `net8.0` build for modern apps |
+
+The NuGet package is **not** limited to .NET 8. Legacy apps on .NET 6 (or .NET Core 3.1) consume the `netstandard2.0` target automatically. .NET 8+ is recommended only for new projects that want the latest runtime build.
 
 The SDK uses `HttpClient` by default. No extra HTTP dependency is required.
 
@@ -105,14 +106,7 @@ var token = await client.Auth.GetAccessTokenAsync(cancellationToken);
 
 ---
 
-## Configuration
-
-The SDK connects to the VZaps production platform automatically:
-
-| Service | Endpoint |
-| --- | --- |
-| REST API | `https://api.vzaps.com` |
-| Realtime WebSocket | `wss://realtime.vzaps.com/events/ws` |
+## Client options
 
 Pass options to `new VZapsClient(options)`:
 
@@ -120,13 +114,9 @@ Pass options to `new VZapsClient(options)`:
 | --- | --- | --- | --- |
 | `ClientToken` | `string` | — | **Required.** Public client token from the dashboard. |
 | `ClientSecret` | `string` | — | **Required.** Client secret used to obtain JWTs. |
-| `BaseUrl` | `Uri` | `https://api.vzaps.com` | REST API base URL. |
-| `RealtimeUrl` | `Uri` | `wss://realtime.vzaps.com` | Realtime WebSocket base URL. |
 | `Timeout` | `TimeSpan` | `30s` | HTTP request timeout. |
 | `TokenRefreshSkew` | `TimeSpan` | `60s` | Refresh JWT this long before expiry. |
 | `UserAgent` | `string` | — | Optional `User-Agent` header on HTTP requests. |
-
-No host configuration is required — install the package, pass your credentials, and the client targets the production API and realtime service.
 
 Pass a custom `HttpClient` as the second constructor argument when you need proxy, TLS, or test handlers:
 
@@ -198,6 +188,14 @@ Available send helpers include `SendTextAsync`, `SendImageAsync`, `SendAudioAsyn
 | `ListAsync<TResponse>(request)` | `GET /instances/:id/group/list` | List groups (paginated). |
 | `GetAsync<TResponse>(request)` | `GET /instances/:id/group/info` | Get group metadata by `GroupId`. |
 
+### `client.Sessions`
+
+| Method | HTTP | Description |
+| --- | --- | --- |
+| `StatusAsync(instanceId, options?)` | `GET /instances/:id/session/status` | Check WhatsApp login state and, when connected, live profile fields. |
+
+`GET /instances/{id}/session/status` returns `SessionStatusResponse`. When `Data.Connected` is `true`, `Data` includes (in order) `Phone`, `WhatsappJid`, `PushName`, `BusinessName`, `BusinessProfile`, `ProfilePictureId`, `ProfilePictureUrl`, `ProfileUrl`, and optional `VerifiedName`, `About`, `Website`. When disconnected, `Data` only has `Connected = false`.
+
 Other public namespaces are available as first-class resources too: `Sessions`, `Users`, `Queues`, `TypeBots`, `Chatwoot`, and `Chats`.
 
 ### `client.RequestAsync<TResponse>(method, path, options?)`
@@ -262,7 +260,7 @@ Event payloads (webhook and realtime) use **snake_case**, matching the platform.
 
 ## Realtime events
 
-Subscribe to the same events over WebSocket at **`wss://realtime.vzaps.com`**. This is the recommended path for in-app notifications, bots, and dashboards that need low-latency delivery without exposing a public webhook URL.
+Subscribe to the same events over the VZaps realtime WebSocket. This is the recommended path for in-app notifications, bots, and dashboards that need low-latency delivery without exposing a public webhook URL.
 
 ### Subscribe
 

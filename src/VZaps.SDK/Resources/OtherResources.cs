@@ -7,6 +7,8 @@ public sealed class SessionsResource : BaseResource
 {
     internal SessionsResource(VZapsHttpClient http) : base(http) { }
 
+    public Task<SessionStatusResponse?> StatusAsync(string instanceId, InstanceRequestOptions? options = null, CancellationToken cancellationToken = default) => StatusAsync<SessionStatusResponse>(instanceId, options, cancellationToken);
+
     public Task<TResponse?> StatusAsync<TResponse>(string instanceId, InstanceRequestOptions? options = null, CancellationToken cancellationToken = default) => SendAsync<TResponse>(HttpMethod.Get, $"/instances/{Escape(instanceId)}/session/status", instanceToken: options?.InstanceToken, cancellationToken: cancellationToken);
 
     public Task<TResponse?> QrAsync<TResponse>(string instanceId, InstanceRequestOptions? options = null, CancellationToken cancellationToken = default) => SendAsync<TResponse>(HttpMethod.Get, $"/instances/{Escape(instanceId)}/session/qr", instanceToken: options?.InstanceToken, cancellationToken: cancellationToken);
