@@ -1,6 +1,6 @@
 # VZaps .NET SDK
 
-[![CI](https://github.com/VZaps/vzaps-sdk-dotnet/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/VZaps/vzaps-sdk-dotnet/actions/workflows/ci.yml)
+[![CI](https://github.com/VZaps/vzaps-sdk-dotnet/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/VZaps/vzaps-sdk-dotnet/actions/workflows/ci.yml) [![SDK Documentation](https://img.shields.io/badge/SDK-Documentation-blue)](https://docs.vzaps.com/en/sdk/dotnet/installation) [![license](https://img.shields.io/badge/license-MIT-blue.svg)](./LICENSE)
 [![NuGet](https://img.shields.io/nuget/v/VZaps.SDK.svg?logo=nuget&logoColor=white)](https://www.nuget.org/packages/VZaps.SDK/)
 
 Official .NET client for the [VZaps public API](https://docs.vzaps.com). Send WhatsApp messages, manage instances, configure webhooks, and subscribe to realtime events with a resource-oriented, async-first interface.
