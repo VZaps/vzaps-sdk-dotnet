@@ -4,8 +4,7 @@ Runnable sample projects that reference the SDK source from this repository.
 
 ## Prerequisites
 
-- [.NET SDK](https://dotnet.microsoft.com/download) 8.0 or later to build the repository
-- Console sample targets **.NET 6**; ASP.NET Core and Worker samples target **.NET 8**
+- [.NET SDK](https://dotnet.microsoft.com/download) 8.0 or later
 
 ## Option A — console sample only
 
@@ -21,7 +20,7 @@ cd examples/VZaps.Examples.Console
 Or create a standalone app from NuGet (no clone):
 
 ```bash
-dotnet new console -f net6.0 -n vzaps-dotnet-console
+dotnet new console -f net8.0 -n vzaps-dotnet-console
 cd vzaps-dotnet-console
 dotnet add package VZaps.SDK
 ```
@@ -73,7 +72,7 @@ cd vzaps-sdk-dotnet/examples/VZaps.Examples.Console
 dotnet run -- 07
 ```
 
-Examples in this repository use a **project reference** to `src/VZaps.SDK`. Standalone apps can install **`VZaps.SDK`** from NuGet instead (works on .NET 6+ via `netstandard2.0`).
+Examples in this repository use a **project reference** to `src/VZaps.SDK`. Standalone apps can install **`VZaps.SDK`** from NuGet instead.
 
 ## Additional samples
 

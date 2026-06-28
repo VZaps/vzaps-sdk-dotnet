@@ -41,26 +41,7 @@ jobs:
           test -f artifacts/VZaps.SDK.*.nupkg
           test -f artifacts/VZaps.SDK.*.snupkg
 
-      - name: Test local package install (net6.0)
-        shell: bash
-        run: |
-          mkdir /tmp/vzaps-consumer-net6
-          cd /tmp/vzaps-consumer-net6
-          cat > vzaps-consumer-net6.csproj <<'EOF'
-          <Project Sdk="Microsoft.NET.Sdk">
-            <PropertyGroup>
-              <OutputType>Exe</OutputType>
-              <TargetFramework>net6.0</TargetFramework>
-              <ImplicitUsings>enable</ImplicitUsings>
-              <Nullable>enable</Nullable>
-            </PropertyGroup>
-          </Project>
-          EOF
-          printf 'using VZaps;\nConsole.WriteLine(typeof(VZapsClient).FullName);\n' > Program.cs
-          dotnet add package VZaps.SDK --source "$GITHUB_WORKSPACE/artifacts"
-          dotnet run
-
-      - name: Test local package install (net8.0)
+      - name: Test local package install
         shell: bash
         run: |
           mkdir /tmp/vzaps-consumer
